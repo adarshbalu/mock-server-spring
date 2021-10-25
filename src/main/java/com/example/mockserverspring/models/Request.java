@@ -1,9 +1,24 @@
-package com.example.mockserverspring;
+package com.example.mockserverspring.models;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
 
+
 public class Request {
+    @Id
     private int id;
+
+    public Request(int status, String method, String endPoint, String mockName, HashMap<String, Object> response, HashMap<String, Object> body, HashMap<String, Object> params) {
+        this.status = status;
+        this.method = method;
+        this.endPoint = endPoint;
+        this.mockName = mockName;
+        this.response = response;
+        this.body = body;
+        this.params = params;
+    }
 
     public Request(int id, int status, String method, String endPoint, String mockName, HashMap<String, Object> response, HashMap<String, Object> body, HashMap<String, Object> params) {
         this.id = id;
