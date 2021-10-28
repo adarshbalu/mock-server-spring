@@ -1,14 +1,24 @@
 package com.example.mockserverspring.models;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
 
 
 public class Request {
+
     @Id
-    private int id;
+    private String id;
+    private int status;
+    private String method;
+    private String endPoint;
+    private String mockName;
+    private HashMap<String, Object> response;
+    private HashMap<String, Object> body;
+    private HashMap<String, Object> params;
+
+    public Request() {
+    }
 
     public Request(int status, String method, String endPoint, String mockName, HashMap<String, Object> response, HashMap<String, Object> body, HashMap<String, Object> params) {
         this.status = status;
@@ -20,7 +30,7 @@ public class Request {
         this.params = params;
     }
 
-    public Request(int id, int status, String method, String endPoint, String mockName, HashMap<String, Object> response, HashMap<String, Object> body, HashMap<String, Object> params) {
+    public Request(String id, int status, String method, String endPoint, String mockName, HashMap<String, Object> response, HashMap<String, Object> body, HashMap<String, Object> params) {
         this.id = id;
         this.status = status;
         this.method = method;
@@ -31,18 +41,11 @@ public class Request {
         this.params = params;
     }
 
-    private int status;
-    private String method;
-    private String endPoint;
-    private String mockName;
-    private HashMap<String,Object> response;
-    private HashMap<String,Object> body;
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -101,6 +104,4 @@ public class Request {
     public void setParams(HashMap<String, Object> params) {
         this.params = params;
     }
-
-    private HashMap<String,Object> params;
 }

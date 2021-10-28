@@ -8,8 +8,10 @@ import java.util.List;
 
 @Document
 public class Mock {
+    //    @Transient
+//    public static final String SEQUENCE_NAME = "mocks_sequence";
     @Id
-    private int id;
+    private String id;
 
     @Indexed(unique = true) // For unique name of mock server
     private String name;
@@ -21,17 +23,20 @@ public class Mock {
         this.requests = requests;
     }
 
-    public Mock(int id, String name, List<Request> requests) {
+    public Mock() {
+    }
+
+    public Mock(String id, String name, List<Request> requests) {
         this.id = id;
         this.name = name;
         this.requests = requests;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
