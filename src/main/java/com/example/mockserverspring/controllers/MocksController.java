@@ -18,12 +18,14 @@ public class MocksController {
     private MockService mockService;
 
     // GET request to /mocks route - return all mock-servers in the db
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public List<Mock> getAllMocks() {
         return mockService.getAllMockServer();
     }
 
     // GET request to /mocks/{id} - returns mock associated with the provided id
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             value = "/{id}")
@@ -36,6 +38,7 @@ public class MocksController {
     }
 
     // POST request to /mocks route - Add new mock-server to the db
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Mock addNewMock(@RequestBody Mock mock) {
@@ -43,13 +46,14 @@ public class MocksController {
     }
 
     // PUT request to /mocks to add new request to mock-server
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             method = RequestMethod.PUT,
             value = "/{id}"
     )
-    public List<Request> addNewRequest(
+    public Mock addNewRequest(
             @PathVariable String id,
             @RequestBody Request request) {
         try {
@@ -61,6 +65,7 @@ public class MocksController {
 
 
     // DELETE request to /mocks/{id}  to remove mocks with the provided id
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(
             value = "/{id}",
             method = RequestMethod.DELETE
@@ -75,6 +80,7 @@ public class MocksController {
     }
 
     // DELETE request to /mocks/{id}/{requestID}  to remove requests mocks with the provided id
+    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(
             value = "/{id}/{requestID}",
             consumes = MediaType.APPLICATION_JSON_VALUE,

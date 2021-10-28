@@ -3,6 +3,7 @@ package com.example.mockserverspring;
 
 import com.example.mockserverspring.models.Mock;
 import com.example.mockserverspring.repositories.MockRepository;
+import com.example.mockserverspring.repositories.RequestRepository;
 import com.example.mockserverspring.utils.HelperUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,9 @@ public class MockServerSpringApplication {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     @Autowired
     private MockRepository mockRepository;
+    
+    @Autowired
+    private RequestRepository requestRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(MockServerSpringApplication.class, args);

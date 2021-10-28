@@ -35,7 +35,7 @@ public class MockServiceImpl implements MockService {
     }
 
     @Override
-    public List<Request> addNewRequest(Request request, String id) throws Exception {
+    public Mock addNewRequest(Request request, String id) throws Exception {
         Mock mockServer = mockRepository.findById(id).orElseThrow(() -> new Exception("Mock server not found for this id :: " + id));
         List<Request> allRequests = mockServer.getRequests();
         UUID uuid = UUID.randomUUID();
@@ -43,8 +43,7 @@ public class MockServiceImpl implements MockService {
         request.setMockName(mockServer.getName());
         allRequests.add(request);
         mockServer.setRequests(allRequests);
-        final Mock updatedMock = mockRepository.save(mockServer);
-        return updatedMock.getRequests();
+        return mockRepository.save(mockServer);
 
     }
 

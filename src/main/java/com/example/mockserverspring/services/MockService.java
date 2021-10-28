@@ -12,7 +12,7 @@ public interface MockService {
 
     Mock createNewMockServer(Mock mock);
 
-    List<Request> addNewRequest(Request request, String id) throws Exception;
+    Mock addNewRequest(Request request, String id) throws Exception;
 
     void deleteMock(String id);
 
