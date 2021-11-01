@@ -23,9 +23,9 @@ public class HelperUtil {
     public static Mock supplySingleMock() {
         Map<String, String> stringMap = new HashMap<String, String>();
         Map<String, Object> hashMap = new HashMap<String, Object>();
-        Request request = new Request(200, "GET", "/status", "newMock", hashMap, hashMap, stringMap);
+        Request request = new Request(200, "GET", "status", "newMock", hashMap, hashMap, stringMap);
         return
-                new Mock("10", "mock1", List.of(request))
+                new Mock("10", "newMock", List.of(request))
                 ;
     }
 }
