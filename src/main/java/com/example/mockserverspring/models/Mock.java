@@ -16,6 +16,7 @@ public class Mock {
     @Indexed(unique = true) // For unique name of mock server
     private String name;
 
+    //    @DBRef
     private List<Request> requests;
 
     public Mock(String name, List<Request> requests) {

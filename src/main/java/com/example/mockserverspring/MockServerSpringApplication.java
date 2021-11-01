@@ -23,7 +23,7 @@ public class MockServerSpringApplication {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     @Autowired
     private MockRepository mockRepository;
-    
+
     @Autowired
     private RequestRepository requestRepository;
 
