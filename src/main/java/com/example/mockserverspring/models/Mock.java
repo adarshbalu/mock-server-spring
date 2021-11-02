@@ -8,15 +8,12 @@ import java.util.List;
 
 @Document
 public class Mock {
-    //    @Transient
-//    public static final String SEQUENCE_NAME = "mocks_sequence";
     @Id
     private String id;
 
     @Indexed(unique = true) // For unique name of mock server
     private String name;
 
-    //    @DBRef
     private List<Request> requests;
 
     public Mock(String name, List<Request> requests) {

@@ -4,7 +4,6 @@ import com.example.mockserverspring.models.Mock;
 import com.example.mockserverspring.models.Request;
 import com.example.mockserverspring.repositories.MockRepository;
 import com.example.mockserverspring.repositories.RequestQueryDao;
-import com.example.mockserverspring.repositories.RequestRepository;
 import com.example.mockserverspring.services.RequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +18,7 @@ public class RequestServiceImpl implements RequestService {
 
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private RequestRepository requestRepository;
+
 
     @Autowired
     private RequestQueryDao requestQueryDao;
@@ -42,5 +40,10 @@ public class RequestServiceImpl implements RequestService {
             }
         }
         return null;
+    }
+
+    @Override
+    public Object getResponseFromQuery(String method, String mockName, Map<String, Object> body, Map<String, String> params, String endPoint) {
+        return requestQueryDao.getRequest(method, mockName, body, params, endPoint);
     }
 }

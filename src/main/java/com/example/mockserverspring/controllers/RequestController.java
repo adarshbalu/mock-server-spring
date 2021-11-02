@@ -47,10 +47,8 @@ public class RequestController {
             final String mockName = requestEndpoint.split("/api/")[1].split("/")[0];
 
             final String endPoint = requestEndpoint.split("/")[3];
-            final Object response = requestService.getResponseFrom(method, mockName, body, allParams, endPoint);
+            final Object response = requestService.getResponseFromQuery(method, mockName, body, allParams, endPoint);
             if (response == null) {
-
-
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
             } else {
                 return ResponseEntity.status(HttpStatus.OK).body(response);

@@ -3,7 +3,6 @@ package com.example.mockserverspring;
 
 import com.example.mockserverspring.models.Mock;
 import com.example.mockserverspring.repositories.MockRepository;
-import com.example.mockserverspring.repositories.RequestRepository;
 import com.example.mockserverspring.utils.HelperUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +23,6 @@ public class MockServerSpringApplication {
     @Autowired
     private MockRepository mockRepository;
 
-    @Autowired
-    private RequestRepository requestRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(MockServerSpringApplication.class, args);
@@ -34,13 +31,14 @@ public class MockServerSpringApplication {
     @Bean
     CommandLineRunner runner() {
         return args -> {
-            LOGGER.info("Started");
+            LOGGER.info("Started Server ");
             mockRepository.save(HelperUtil.supplySingleMock());
 
             List<Mock> mocksList = mockRepository.findAll();
             if (mocksList.size() == 0) {
-                LOGGER.info("Database empty");
+                LOGGER.info("Database is empty");
                 mockRepository.save(HelperUtil.supplySingleMock());
+                LOGGER.info("Added sample Documents to the database");
             } else {
                 LOGGER.info("Database not empty");
             }
