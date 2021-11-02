@@ -28,28 +28,34 @@ public class RequestController {
             final HttpServletRequest request,
             @RequestParam(required = false) Map<String, String> allParams,
             @RequestBody(required = false) Map<String, Object> body) {
+        final Map<String, Object> error = new HashMap<String, Object>();
+        final Map<String, Object> code = new HashMap<String, Object>();
+        code.put("name", "mockRequestNotFoundError");
+        code.put("message", "Double check your method and the request path and try again.");
+        code.put("header", "No matching requests");
+        error.put("error", code);
+        try {
+            if (allParams == null) {
+                allParams = new HashMap<String, String>();
+            }
+            if (body == null) {
+                body = new HashMap<String, Object>();
+            }
+            final String method = request.getMethod();
 
-        if (allParams == null) {
-            allParams = new HashMap<String, String>();
-        }
-        if (body == null) {
-            body = new HashMap<String, Object>();
-        }
-        final String method = request.getMethod();
+            final String requestEndpoint = request.getRequestURI();
+            final String mockName = requestEndpoint.split("/api/")[1].split("/")[0];
 
-        final String requestEndpoint = request.getRequestURI();
-        final String mockName = requestEndpoint.split("/api/")[1].split("/")[0];
-
-        final String endPoint = requestEndpoint.split("/")[3];
-        final Object response = requestService.getResponseFrom(method, mockName, body, allParams, endPoint);
-        if (response == null) {
-            final Map<String, String> error = new HashMap<String, String>();
-            error.put("error", "Not found");
+            final String endPoint = requestEndpoint.split("/")[3];
+            final Object response = requestService.getResponseFromQuery(method, mockName, body, allParams, endPoint);
+            if (response == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(response);
+            }
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
-
     }
 
 }

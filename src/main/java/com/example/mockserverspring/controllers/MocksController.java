@@ -5,10 +5,13 @@ import com.example.mockserverspring.models.Mock;
 import com.example.mockserverspring.models.Request;
 import com.example.mockserverspring.services.MockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/mocks")
@@ -20,8 +23,14 @@ public class MocksController {
     // GET request to /mocks route - return all mock-servers in the db
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
-    public List<Mock> getAllMocks() {
-        return mockService.getAllMockServer();
+    public ResponseEntity<Object> getAllMocks() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(mockService.getAllMockServer());
+        } catch (Exception e) {
+            final Map<String, Object> code = new HashMap<String, Object>();
+            code.put("message", "failed to get mock-server list");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(code);
+        }
     }
 
     // GET request to /mocks/{id} - returns mock associated with the provided id
@@ -29,11 +38,14 @@ public class MocksController {
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             value = "/{id}")
-    public Mock getMock(@PathVariable String id) {
+    public ResponseEntity<Object> getMock(@PathVariable String id) {
         try {
-            return mockService.getMock(id);
+            return ResponseEntity.status(HttpStatus.OK).body(mockService.getMock(id));
         } catch (Exception e) {
-            return null;
+            final Map<String, Object> code = new HashMap<String, Object>();
+            code.put("message", "failed to get mock server");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(code);
+
         }
     }
 
@@ -41,8 +53,18 @@ public class MocksController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mock addNewMock(@RequestBody Mock mock) {
-        return mockService.createNewMockServer(mock);
+    public ResponseEntity<Object> addNewMock(@RequestBody Mock mock) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(mockService.createNewMockServer(mock));
+        } catch (Exception e) {
+            final Map<String, Object> error = new HashMap<String, Object>();
+            final Map<String, Object> code = new HashMap<String, Object>();
+            code.put("name", "mockServerExitsError");
+            code.put("message", "Mock server with the same name already exits");
+            code.put("header", "No matching requests");
+            error.put("error", code);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
     }
 
     // PUT request to /mocks to add new request to mock-server
@@ -53,13 +75,19 @@ public class MocksController {
             method = RequestMethod.PUT,
             value = "/{id}"
     )
-    public Mock addNewRequest(
+    public ResponseEntity<Object> addNewRequest(
             @PathVariable String id,
             @RequestBody Request request) {
         try {
-            return mockService.addNewRequest(request, id);
+            return ResponseEntity.status(HttpStatus.OK).body(mockService.addNewRequest(request, id));
         } catch (Exception e) {
-            return null;
+            final Map<String, Object> error = new HashMap<String, Object>();
+            final Map<String, Object> code = new HashMap<String, Object>();
+            code.put("name", "mockRequestCreateError");
+            code.put("message", "Could not add request");
+            code.put("header", "");
+            error.put("error", code);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
 
@@ -70,12 +98,16 @@ public class MocksController {
             value = "/{id}",
             method = RequestMethod.DELETE
     )
-    public String deleteMock(@PathVariable String id) {
+    public ResponseEntity<Object> deleteMock(@PathVariable String id) {
         try {
             mockService.deleteMock(id);
-            return "Deleted";
+            final Map<String, Object> code = new HashMap<String, Object>();
+            code.put("message", "deleted");
+            return ResponseEntity.status(HttpStatus.OK).body(code);
         } catch (Exception e) {
-            return null;
+            final Map<String, Object> code = new HashMap<String, Object>();
+            code.put("message", "error deleting mocker server");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(code);
         }
     }
 
@@ -86,12 +118,17 @@ public class MocksController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             method = RequestMethod.DELETE
     )
-    public String deleteRequest(@PathVariable String id, @PathVariable(name = "requestID") String requestId) {
+    public ResponseEntity<Object> deleteRequest(@PathVariable String id, @PathVariable(name = "requestID") String requestId) {
         try {
             mockService.deleteRequest(id, requestId);
-            return "Deleted request";
+            final Map<String, Object> code = new HashMap<String, Object>();
+            code.put("message", "deleted request");
+            return ResponseEntity.status(HttpStatus.OK).body(code);
+
         } catch (Exception e) {
-            return null;
+            final Map<String, Object> code = new HashMap<String, Object>();
+            code.put("message", "error deleting request");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(code);
         }
     }
 }

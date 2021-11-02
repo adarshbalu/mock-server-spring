@@ -12,8 +12,7 @@ public interface MockRepository extends MongoRepository<Mock, String> {
     Mock findByName(String mockName);
 
     void deleteById(String id);
-
-
+    
     @Query("{ 'name' : ?0 }")
     List<Mock> findMockByName(String name);
 }
